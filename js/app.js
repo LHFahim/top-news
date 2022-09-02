@@ -1,3 +1,4 @@
+// initialization
 const loadNews = async () => {
   const url = `https://openapi.programming-hero.com/api/news/categories`;
 
@@ -10,6 +11,7 @@ const loadNews = async () => {
   }
 };
 
+// fetching all categories
 const displayCategories = categories => {
   // console.log(categories);
 
@@ -18,23 +20,42 @@ const displayCategories = categories => {
   });
 };
 
+// inserting all categories on page
 const insertData = (data, id) => {
-  // console.log(data.category_id);
-  // const cid = data.category_id;
-
   const dataElement = document.createElement('div');
+
   dataElement.innerHTML = `
     <button onclick="loadThisIdNews(${data.category_id})">${data.category_name}</button>
   `;
 
   const dataField = document.getElementById(id);
-  // dataElement.id = cid;
 
   dataField.appendChild(dataElement);
 };
 
-const loadThisIdNews = id => {
-  console.log(id);
+const loadThisIdNews = async category_id => {
+  const categoryId = '0' + category_id;
+
+  const url = `https://openapi.programming-hero.com/api/news/category/${categoryId}`;
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    displayNewsByCategory(data.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// display news for a specific category
+const displayNewsByCategory = news => {
+  console.log(news[0]);
+  console.log(news[0].image_url);
+
+  const newsElement = document.createElement('div');
+  // newsElement.innerHTML = `
+  //   <img>
+  // `
 };
 
 loadNews();
