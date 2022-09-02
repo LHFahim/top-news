@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title></title>
+    <title>Top News</title>
 
     <!-- tailwind css -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -29,8 +29,9 @@
 
   <body>
     <!-- header begins -->
-    <header id="header">
-      <div class="nav-container w-3/4 mx-auto border-b-2">
+    <header id="header" class="w-3/4 mx-auto">
+      <!-- nav begins -->
+      <div class="nav-container border-b-2">
         <nav class="border-gray-200 px-2 sm:px-4 py-2.5 rounded">
           <div
             class="container flex flex-wrap justify-between items-center mx-auto"
@@ -92,11 +93,21 @@
           </div>
         </nav>
       </div>
+      <!-- nav ends -->
+
+      <!-- category section begins -->
+      <section>
+        <div
+          id="category-container"
+          class="flex justify-evenly mt-5 text-gray-500"
+        ></div>
+      </section>
+      <!-- category section ends -->
     </header>
     <!-- header ends -->
 
     <!-- js -->
-    <script src=""></script>
+    <script src="js/app.js"></script>
 
     <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
   </body>
