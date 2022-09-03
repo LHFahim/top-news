@@ -56,6 +56,9 @@ const displayNewsByCategory = news => {
     toggleSpinner(false);
     displayTotalNewsFound(0, 'Culture');
   }
+  console.log(news);
+
+  news = news.sort((a, b) => b.total_view - a.total_view);
 
   const newsContainer = document.getElementById('news-container');
   newsContainer.textContent = '';
@@ -64,8 +67,6 @@ const displayNewsByCategory = news => {
 
   news.forEach(async item => {
     // check total number of news for a category
-
-    console.log(item.length);
 
     let categoryName;
     const url = `https://openapi.programming-hero.com/api/news/categories`;
@@ -202,6 +203,8 @@ const displayNewsByCategory = news => {
     newsElement.classList.add('shadow-lg');
 
     toggleSpinner(false);
+
+    document.getElementById('dropdown-container').classList.remove('hidden');
 
     document.getElementById('news-container').appendChild(newsElement);
   });
