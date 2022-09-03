@@ -175,11 +175,6 @@ const getCategoryName = categoryId => {
     .catch(error => console.log(error));
 };
 
-const getName = cname => {
-  console.log(cname);
-  return cname;
-};
-
 const toggleSpinner = flag => {
   // document.getElementById('spinner').classList.toggle('hidden');
 
@@ -216,8 +211,6 @@ const loadNewsDetails = async id => {
 
     const item = data.data[0];
 
-    console.log(item);
-
     const modalHeader = (document.getElementById(
       'exampleModalLgLabel'
     ).textContent = item.title);
@@ -249,6 +242,4 @@ const loadNewsDetails = async id => {
   }
 };
 
-loadNewsDetails('11468ed61aee84de492a8b04158a22f0');
 loadNews();
-// loadThisIdNews(1);

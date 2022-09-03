@@ -168,17 +168,30 @@
     <main class="w-full md:w-3/4 mx-auto mt-16">
       <section id="found-message"></section>
 
-      <section id="dropdown-container" class="hidden mb-5">
-        <!-- sort by begins -->
-        <label class="font-bold" for="cars">Sort by view:</label>
-        <select
-          class="w-28 pl-2 rounded-lg text-gray-500"
-          name="cars"
-          id="cars"
-        >
-          <option value="volvo">Most read</option>
-        </select>
-        <!-- sort by ends -->
+      <section
+        id="dropdown-container"
+        class="mb-10 ml-5 flex flex-col md:flex-row justify-between space-y-5 text-center md:items-baseline"
+      >
+        <div>
+          <!-- sort by begins -->
+          <label class="font-bold" for="cars">Sort by view:</label>
+          <select
+            class="w-28 pl-2 rounded-lg text-gray-500"
+            name="cars"
+            id="cars"
+          >
+            <option value="volvo">Most read</option>
+          </select>
+          <!-- sort by ends -->
+        </div>
+        <div class="space-x-5">
+          <button class="py-2 px-3 bg-blue-600 rounded text-white">
+            Today's Pick
+          </button>
+          <button class="py-2 px-3 outline outline-blue-600 rounded">
+            Trending
+          </button>
+        </div>
       </section>
 
       <!-- modal contents starts -->
