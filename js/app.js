@@ -56,7 +56,6 @@ const displayNewsByCategory = news => {
     toggleSpinner(false);
     displayTotalNewsFound(0, 'Culture');
   }
-  console.log(news);
 
   news = news.sort((a, b) => b.total_view - a.total_view);
 
@@ -136,61 +135,10 @@ const displayNewsByCategory = news => {
 
             
             <!-- modal button -->
-            <button type="button" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" data-bs-toggle="modal" data-bs-target="#exampleModalLg">Read more</button>
+            <button onclick="loadNewsDetails('${
+              item._id
+            }')" type="button" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" data-bs-toggle="modal" data-bs-target="#exampleModalLg">Read more</button>
 
-            <!-- modal starts-->
-            <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto" id="exampleModalLg" tabindex="-1" aria-labelledby="exampleModalLgLabel" aria-modal="true" role="dialog">
-                <div class="modal-dialog modal-lg relative w-auto pointer-events-none">
-                  <div class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
-
-                  <!-- modal header-->
-                    <div class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
-                      <h5 class="text-xl font-medium leading-normal text-gray-800" id="exampleModalLgLabel">
-                        ${item.title}
-                      </h5>
-                      <button type="button"
-                        class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
-                        data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-
-                    <!-- modal author-->
-                    <div class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
-                      <h5 class="text-sm font-medium leading-normal text-gray-800" id="exampleModalLgLabel">
-                        
-                        ${
-                          item.author.name ? item.author.name : 'No data found'
-                        } <br> possesses a rating of ${
-      item.rating.number
-    } <br> and is considered  ${item.rating.badge}
-                        <br>
-                        Date: ${item.author.published_date}
-                        
-                      </h5>
-                      
-                      <img class="ml-5 w-[70px] rounded-full" src="${
-                        item.author.img
-                      }"/>
-                      <button type="button"
-                        class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
-                        data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body relative p-4">
-                    <img class="mb-10" src="${item.image_url}"/>
-                      <p>${item.details}</p>
-                      
-                      <small class="mt-5">Total read: ${
-                        item.total_view ? item.total_view : 'No data found'
-                      } times.</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <!-- modal ends-->
-            
-
-
-            
-           
           </div>
         </div>
       </div>
@@ -259,5 +207,48 @@ const displayTotalNewsFound = (number = 0, category = 'No news found') => {
   document.getElementById('found-message').appendChild(element);
 };
 
+const loadNewsDetails = async id => {
+  const url = `https://openapi.programming-hero.com/api/news/${id}`;
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+
+    const item = data.data[0];
+
+    console.log(item);
+
+    const modalHeader = (document.getElementById(
+      'exampleModalLgLabel'
+    ).textContent = item.title);
+
+    const modalBodyElement = document.getElementById('modal-body');
+
+    modalBodyElement.innerHTML = `
+      <img class="h-14 w-14 rounded-full" src="${item.author.img}">
+      <h3 class="font-bold">${
+        item.author.name ? item.author.name : 'No data found'
+      }</h3>
+      <small>Author possesses a rating of ${item.rating.badge} ${
+      item.rating.number
+    } </small>
+      
+      <h3>Date: ${item.author.published_date}</h3>
+
+      <div class="border-b-2 mt-5"></div>
+
+      <img class="mb-5" src="${item.image_url}">
+
+      <p>${item.details}</p>
+
+      <small>This news has been read ${item.total_view} times</small>
+     
+    `;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+loadNewsDetails('11468ed61aee84de492a8b04158a22f0');
 loadNews();
 // loadThisIdNews(1);
