@@ -13,8 +13,6 @@ const loadNews = async () => {
 
 // fetching all categories
 const displayCategories = categories => {
-  // console.log(categories);
-
   categories.forEach(category => {
     insertData(category, 'category-container');
   });
@@ -33,7 +31,10 @@ const insertData = (data, id) => {
   dataField.appendChild(dataElement);
 };
 
+// load category specific news
 const loadThisIdNews = async category_id => {
+  toggleSpinner(true);
+
   const categoryId = '0' + category_id;
 
   // const url = `https://openapi.programming-hero.com/api/news/category/`;
@@ -56,7 +57,7 @@ const displayNewsByCategory = news => {
   newsContainer.textContent = '';
 
   news.forEach(item => {
-    console.log(item.author.name);
+    // console.log(item.author.name);
     let itemDetail;
     if (item.details.length > 400) {
       itemDetail = item.details.slice(0, 400);
@@ -121,7 +122,10 @@ const displayNewsByCategory = news => {
                     <!-- modal author-->
                     <div class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
                       <h5 class="text-sm font-medium leading-normal text-gray-800" id="exampleModalLgLabel">
-                        ${item.author.name} <br> possesses a rating of ${
+                        ${console.log('Author name: ' + item.author.name)}
+                        ${
+                          item.author.name ? item.author.name : 'No data found'
+                        } <br> possesses a rating of ${
       item.rating.number
     } <br> and is considered  ${item.rating.badge}
                         <br>
@@ -140,8 +144,8 @@ const displayNewsByCategory = news => {
                     <img class="mb-10" src="${item.image_url}"/>
                       <p>${item.details}</p>
                       
-                      <small class="mt-5">This article has been read ${
-                        item.total_view
+                      <small class="mt-5">Total read: ${
+                        item.total_view ? item.total_view : 'No data found'
                       } times.</small>
                     </div>
                   </div>
@@ -164,8 +168,20 @@ const displayNewsByCategory = news => {
     newsElement.classList.add('rounded-3xl');
     newsElement.classList.add('shadow-lg');
 
+    toggleSpinner(false);
+
     document.getElementById('news-container').appendChild(newsElement);
   });
+};
+
+const toggleSpinner = flag => {
+  // document.getElementById('spinner').classList.toggle('hidden');
+
+  if (flag) {
+    document.getElementById('spinner').classList.remove('hidden');
+  } else if (!flag) {
+    document.getElementById('spinner').classList.add('hidden');
+  }
 };
 
 loadNews();
