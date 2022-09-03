@@ -53,7 +53,9 @@ const loadThisIdNews = async category_id => {
 // display news for a specific category
 const displayNewsByCategory = news => {
   if (news.length === 0) {
+    document.getElementById('dropdown-container').classList.add('hidden');
     toggleSpinner(false);
+
     displayTotalNewsFound(0, 'Culture');
   }
 
@@ -228,7 +230,7 @@ const loadNewsDetails = async id => {
       
       <h3>Date: ${item.author.published_date}</h3>
 
-      <div class="border-b-2 mt-5"></div>
+      <div class="border-b-2 my-3"></div>
 
       <img class="mb-5" src="${item.image_url}">
 
@@ -243,5 +245,7 @@ const loadNewsDetails = async id => {
     console.log(error);
   }
 };
+
+document.getElementById('dropdown-container').classList.add('hidden');
 
 loadNews();
