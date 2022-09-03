@@ -52,6 +52,11 @@ const loadThisIdNews = async category_id => {
 
 // display news for a specific category
 const displayNewsByCategory = news => {
+  if (news.length === 0) {
+    toggleSpinner(false);
+    displayTotalNewsFound(0, 'Culture');
+  }
+
   const newsContainer = document.getElementById('news-container');
   newsContainer.textContent = '';
 
@@ -59,6 +64,8 @@ const displayNewsByCategory = news => {
 
   news.forEach(async item => {
     // check total number of news for a category
+
+    console.log(item.length);
 
     let categoryName;
     const url = `https://openapi.programming-hero.com/api/news/categories`;
@@ -78,7 +85,6 @@ const displayNewsByCategory = news => {
       console.log(error);
     }
 
-    console.log(categoryName);
     if (count === 0) {
       displayTotalNewsFound(news.length, categoryName);
       count++;
@@ -232,7 +238,7 @@ const toggleSpinner = flag => {
   }
 };
 
-const displayTotalNewsFound = (number, category) => {
+const displayTotalNewsFound = (number = 0, category = 'No news found') => {
   document.getElementById('found-message').textContent = '';
 
   const element = document.createElement('p');
