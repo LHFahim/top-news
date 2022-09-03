@@ -234,7 +234,9 @@ const loadNewsDetails = async id => {
 
       <p>${item.details}</p>
 
-      <small>This news has been read ${item.total_view} times</small>
+      <small>Read count: ${
+        item.total_view ? item.total_view : 'No data'
+      }</small>
      
     `;
   } catch (error) {
