@@ -98,18 +98,19 @@ const displayNewsByCategory = news => {
       itemDetail = item.details;
     }
 
+    // template sttring
     const newsElement = document.createElement('div');
     newsElement.innerHTML = `
-      <div id="item-container " class="flex space-x-10">
-        <div class="w-1/4">
+      <div id="item-container " class="flex flex-col  items-center md:flex-row space-x-10 ">
+        <div class="md:w-1/4">
           <img
-            class="object-cover h-full p-5 rounded-3xl"
+            class="object-cover md:h-full md:p-5 md:rounded-3xl"
             src="${item.thumbnail_url}"
             alt=""
           />
         </div>
       
-        <div class="w-3/4 space-y-5 p-4">
+        <div class="md:w-3/4 space-y-5 p-4">
           <h1 class="text-2xl font-bold">
             ${item.title}
           </h1>
@@ -119,7 +120,7 @@ const displayNewsByCategory = news => {
         
           <div class="flex justify-between items-center">
       
-            <div class="flex items-center space-x-3">
+            <div class="flex flex-col md:flex-row md:items-center md:space-x-3 ">
               <img
                 class="w-14 rounded-full"
                 src="${item.author.img}"
