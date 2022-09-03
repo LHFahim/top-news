@@ -52,12 +52,38 @@ const loadThisIdNews = async category_id => {
 
 // display news for a specific category
 const displayNewsByCategory = news => {
-  console.log(news.length);
   const newsContainer = document.getElementById('news-container');
   newsContainer.textContent = '';
 
-  news.forEach(item => {
-    // console.log(item.author.name);
+  let count = 0;
+
+  news.forEach(async item => {
+    // check total number of news for a category
+
+    let categoryName;
+    const url = `https://openapi.programming-hero.com/api/news/categories`;
+
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+
+      const foundResult = data.data.news_category;
+
+      foundResult.forEach(element => {
+        if (element.category_id === item.category_id) {
+          categoryName = element.category_name;
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
+    console.log(categoryName);
+    if (count === 0) {
+      displayTotalNewsFound(news.length, categoryName);
+      count++;
+    }
+
     let itemDetail;
     if (item.details.length > 400) {
       itemDetail = item.details.slice(0, 400);
@@ -122,7 +148,7 @@ const displayNewsByCategory = news => {
                     <!-- modal author-->
                     <div class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
                       <h5 class="text-sm font-medium leading-normal text-gray-800" id="exampleModalLgLabel">
-                        ${console.log('Author name: ' + item.author.name)}
+                        
                         ${
                           item.author.name ? item.author.name : 'No data found'
                         } <br> possesses a rating of ${
@@ -174,6 +200,28 @@ const displayNewsByCategory = news => {
   });
 };
 
+const getCategoryName = categoryId => {
+  const url = `https://openapi.programming-hero.com/api/news/categories`;
+
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      const foundResult = data.data.news_category;
+      foundResult.forEach(element => {
+        if (element.category_id === categoryId) {
+          const cname = element.category_name;
+          getName(cname);
+        }
+      });
+    })
+    .catch(error => console.log(error));
+};
+
+const getName = cname => {
+  console.log(cname);
+  return cname;
+};
+
 const toggleSpinner = flag => {
   // document.getElementById('spinner').classList.toggle('hidden');
 
@@ -182,6 +230,23 @@ const toggleSpinner = flag => {
   } else if (!flag) {
     document.getElementById('spinner').classList.add('hidden');
   }
+};
+
+const displayTotalNewsFound = (number, category) => {
+  document.getElementById('found-message').textContent = '';
+
+  const element = document.createElement('p');
+  element.innerText = `${number} item(s) have been found for category ${category}`;
+
+  element.classList.add('p-5');
+  element.classList.add('bg-white');
+  element.classList.add('mb-10');
+  element.classList.add('rounded-lg');
+  element.classList.add('text-2xl');
+  element.classList.add('font-bold');
+  element.classList.add('text-center');
+
+  document.getElementById('found-message').appendChild(element);
 };
 
 loadNews();
